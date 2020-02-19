@@ -1,19 +1,18 @@
 {
-    "name": "windy-plugin-examples",
+    "name": "windy-plugin-flymet",
     "version": "0.5.0",
-    "description": "Windy plugin system enables anyone, with basic knowledge of Javascript to enhance Windy with new functionality (default desc).",
+    "description": "Windy plugin for Flymet.",
     "main": "dist/plugin.js",
     "scripts": {
-        "start": "node ./compiler.js --build --watch --prompt --serve --transpile",
-        "start-dev": "node ./compiler.js --build --watch --serve --transpile",
+        "start": "node ./compiler.js --build --watch --serve --transpile",
         "prepublishOnly": "node ./test/prepublish.js",
         "test": "node ./test/prepublish.js"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/windycom/windy-plugins"
+        "url": "git+https://github.com/vrana/windy-plugin-flymet"
     },
-    "author": "Windyty, S.E.",
+    "author": "Jakub Vrana",
     "license": "MIT",
     "dependencies": {
         "@babel/core": "^7.1.2",
