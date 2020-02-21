@@ -1,6 +1,48 @@
 <plugin>
 <script>
+import map from '@windy/map';
+import store from '@windy/store';
+
+/** @type {L.ImageOverlay} */
+let flymet;
+
 this.onopen = () => {
+	flymet = L.imageOverlay('https://flymet.meteopress.cz/cr/cudf13.png', [[48, 11.65], [51.65, 19.35]], {opacity: .5});
+	updateFlymet();
+	store.on('timestamp', updateFlymet);
 };
+
+function updateFlymet() {
+	const timestamp = new Date(store.get('timestamp'));
+	const now = new Date();
+	const hour = timestamp.getUTCHours();
+	if (isSameDay(timestamp, now) && hour > 0) { // Today.
+		flymet.setUrl('https://flymet.meteopress.cz/cr/cudf' + hour + '.png').addTo(map);
+	} else if (isSameDay(timestamp, addDay(now))) { // Tomorrow.
+		flymet.setUrl('https://flymet.meteopress.cz/cr' + (hour ? 'dl/cudf' + hour : '/cudf24') + '.png').addTo(map);
+	} else if (isSameDay(timestamp, addDay(now)) && hour == 0) { // Day after tomorrow.
+		flymet.setUrl('https://flymet.meteopress.cz/crdl/cudf24.png').addTo(map);
+	} else {
+		flymet.remove();
+	}
+}
+
+/** Adds one day to date.
+ * @param {Date} date
+ * @return {Date} The modified date.
+ */
+function addDay(date) {
+	date.setDate(date.getDate() + 1);
+	return date;
+}
+
+/** Checks if day, month and year are the same.
+ * @param {Date} a
+ * @param {Date} b
+ * @return {boolean}
+ */
+function isSameDay(a, b) {
+	return a.toISOString().substr(0, 10) == b.toISOString().substr(0, 10);
+}
 </script>
 </plugin>
