@@ -1,7 +1,28 @@
 @import 'dev/variables.less';
 
+@widthOfMyPlugin: 400px;
+
 .onwindy-plugin-flymet {
+    .left-border {
+        left: @widthOfMyPlugin;
+    }
+
+    #search {
+        display: none;
+    }
 }
 
 #windy-plugin-flymet {
+    width: @widthOfMyPlugin;
+    height: 100%;
+
+    .plugin-content {
+        padding: 20px 15px 15px 15px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    
+    a {
+        color: navy;
+    }
 }

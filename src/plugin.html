@@ -1,10 +1,26 @@
 <plugin>
+<div class="plugin-content">
+<h2>Flymet</h2>
+<ul style="padding-left: 20px;">
+<li><a data-flymet="">nic</a></li>
+<li><a data-flymet="cudf" style="font-weight: bold;">Deficit konvektivní teploty</a></li>
+<li><a data-flymet="cukh">Kupovitá oblačnost</a></li>
+<li><a data-flymet="cuvr">Rychlost stoupání</a></li>
+</ul>
+
+<p>Neprůhlednost: <input id="flymet-opacity" type="range" min="0" max="100" value="50" style="vertical-align: text-bottom;"></p>
+
+<p>Zdroj dat: <a href="https://flymet.meteopress.cz/cr/" target="_blank">Flymet</a></p>
+</div>
+
 <script>
 import map from '@windy/map';
 import store from '@windy/store';
 
 /** @type {L.ImageOverlay} */
 let flymet;
+/** @type {string} */
+let flymetType = 'cudf';
 
 this.onopen = () => {
 	flymet = L.imageOverlay('https://flymet.meteopress.cz/cr/cudf13.png', [[48, 11.65], [51.65, 19.35]], {opacity: .5});
@@ -16,16 +32,31 @@ function updateFlymet() {
 	const timestamp = new Date(store.get('timestamp'));
 	const now = new Date();
 	const hour = timestamp.getUTCHours();
-	if (isSameDay(timestamp, now) && hour > 0) { // Today.
-		flymet.setUrl('https://flymet.meteopress.cz/cr/cudf' + hour + '.png').addTo(map);
+	if (!flymetType) {
+		flymet.remove();
+	} else if (isSameDay(timestamp, now) && hour > 0) { // Today.
+		flymet.setUrl('https://flymet.meteopress.cz/cr/' + flymetType + hour + '.png').addTo(map);
 	} else if (isSameDay(timestamp, addDay(now))) { // Tomorrow.
-		flymet.setUrl('https://flymet.meteopress.cz/cr' + (hour ? 'dl/cudf' + hour : '/cudf24') + '.png').addTo(map);
+		flymet.setUrl('https://flymet.meteopress.cz/cr' + (hour ? 'dl/' + flymetType + hour : '/' + flymetType + '24') + '.png').addTo(map);
 	} else if (isSameDay(timestamp, addDay(now)) && hour == 0) { // Day after tomorrow.
-		flymet.setUrl('https://flymet.meteopress.cz/crdl/cudf24.png').addTo(map);
+		flymet.setUrl('https://flymet.meteopress.cz/crdl/' + flymetType + '24.png').addTo(map);
 	} else {
 		flymet.remove();
 	}
 }
+
+function changeFlymet(e) {
+	document.querySelector('[data-flymet="' + flymetType + '"]').style.fontWeight = 'normal';
+	e.target.style.fontWeight = 'bold';
+	flymetType = e.target.dataset['flymet'];
+	updateFlymet();
+}
+
+Array.from(document.querySelectorAll('[data-flymet]')).forEach(el => el.onclick = changeFlymet);
+
+document.querySelector('#flymet-opacity').oninput = function(e) {
+	flymet.setOpacity(e.target.value / 100);
+};
 
 /** Adds one day to date.
  * @param {Date} date
