@@ -80,6 +80,6 @@ function () {
   }
 
   function isSameDay(a, b) {
-    return a.toISOString().substr(0, 10) == b.toISOString().substr(0, 10);
+    return a.getDate() == b.getDate();
   }
 });
