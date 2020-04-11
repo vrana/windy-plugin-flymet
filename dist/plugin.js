@@ -8,7 +8,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-flymet",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": "Jakub Vrana",
   "repository": {
     "type": "git",
@@ -34,11 +34,13 @@ function () {
   var flymetType = 'cudf';
 
   this.onopen = function () {
-    flymet = L.imageOverlay('https://flymet.meteopress.cz/cr/cudf13.png', [[48, 11.65], [51.65, 19.35]], {
-      opacity: .5
-    });
-    updateFlymet();
-    store.on('timestamp', updateFlymet);
+    if (!flymet) {
+      flymet = L.imageOverlay('https://flymet.meteopress.cz/cr/cudf13.png', [[48, 11.65], [51.65, 19.35]], {
+        opacity: .5
+      });
+      updateFlymet();
+      store.on('timestamp', updateFlymet);
+    }
   };
 
   function updateFlymet() {
