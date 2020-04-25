@@ -18,13 +18,14 @@
 <script>
 import map from '@windy/map';
 import store from '@windy/store';
+import rootScope from '@windy/rootScope';
 
 /** @type {L.ImageOverlay} */
 let flymet;
 /** @type {string} */
 let flymetType = 'cudf';
 
-document.getElementById('close-mobile-plugin').onclick = () => this.close(); // TODO: Allow reopening.
+document.getElementById('close-mobile-plugin').onclick = () => this.close();
 
 this.onopen = () => {
 	if (!flymet) {
@@ -55,14 +56,15 @@ function updateFlymet() {
 	}
 }
 
-function changeFlymet(e) {
+Array.from(document.querySelectorAll('[data-flymet]')).forEach((el) => el.onclick = (event) => {
 	document.querySelector('[data-flymet="' + flymetType + '"]').style.fontWeight = 'normal';
-	e.target.style.fontWeight = 'bold';
-	flymetType = e.target.dataset['flymet'];
+	event.target.style.fontWeight = 'bold';
+	flymetType = event.target.dataset['flymet'];
 	updateFlymet();
-}
-
-Array.from(document.querySelectorAll('[data-flymet]')).forEach(el => el.onclick = changeFlymet);
+	if (rootScope.isMobile) {
+		this.close();
+	}
+});
 
 document.querySelector('#flymet-opacity').oninput = function(e) {
 	flymet.setOpacity(e.target.value / 100);

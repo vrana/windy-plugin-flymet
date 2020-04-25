@@ -8,7 +8,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-flymet",
-  "version": "0.7.1",
+  "version": "1.0.0",
   "author": "Jakub Vrana",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@ W.loadPlugin(
   },
   "description": "Windy plugin for Flymet.",
   "displayName": "Flymet",
-  "hook": "menu",
+  "hook": "contextmenu",
   "className": "plugin-lhpane plugin-mobile-fullscreen",
   "exclusive": "lhpane"
 },
@@ -27,6 +27,8 @@ W.loadPlugin(
 /* Constructor */
 function () {
   var _this = this;
+
+  var rootScope = W.require('rootScope');
 
   var store = W.require('store');
 
@@ -73,15 +75,17 @@ function () {
     }
   }
 
-  function changeFlymet(e) {
-    document.querySelector('[data-flymet="' + flymetType + '"]').style.fontWeight = 'normal';
-    e.target.style.fontWeight = 'bold';
-    flymetType = e.target.dataset['flymet'];
-    updateFlymet();
-  }
-
   Array.from(document.querySelectorAll('[data-flymet]')).forEach(function (el) {
-    return el.onclick = changeFlymet;
+    return el.onclick = function (event) {
+      document.querySelector('[data-flymet="' + flymetType + '"]').style.fontWeight = 'normal';
+      event.target.style.fontWeight = 'bold';
+      flymetType = event.target.dataset['flymet'];
+      updateFlymet();
+
+      if (rootScope.isMobile) {
+        _this.close();
+      }
+    };
   });
 
   document.querySelector('#flymet-opacity').oninput = function (e) {
