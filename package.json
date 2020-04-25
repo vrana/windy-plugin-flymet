@@ -15,8 +15,8 @@
     "author": "Jakub Vrana",
     "license": "MIT",
     "dependencies": {
-        "@babel/core": "^7.1.2",
-        "@babel/preset-env": "^7.1.0",
+        "@babel/core": "^7.9.0",
+        "@babel/preset-env": "^7.9.5",
         "chokidar": "^2.0.4",
         "colorette": "^1.0.6",
         "commander": "^2.19.0",
@@ -31,7 +31,7 @@
     },
     "devDependencies": {
         "eslint": "^6.6.0",
-        "eslint-plugin-html": "^6.0.0",
+        "eslint-plugin-html": "^6.0.2",
         "prettier": "^1.18.2"
     }
 }
