@@ -8,7 +8,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-flymet",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": "Jakub Vrana",
   "repository": {
     "type": "git",
@@ -41,6 +41,12 @@ function () {
 
   this.onopen = function () {
     if (!flymet) {
+      var openInApp = document.getElementById('open-in-app');
+
+      if (openInApp) {
+        openInApp.style.display = 'none';
+      }
+
       flymet = L.imageOverlay('https://flymet.meteopress.cz/cr/cudf13.png', [[48, 11.65], [51.65, 19.35]], {
         opacity: .5
       });

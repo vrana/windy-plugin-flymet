@@ -28,6 +28,10 @@ document.getElementById('close-mobile-plugin').onclick = () => this.close(); // 
 
 this.onopen = () => {
 	if (!flymet) {
+		const openInApp = document.getElementById('open-in-app');
+		if (openInApp) {
+			openInApp.style.display = 'none';
+		}
 		flymet = L.imageOverlay('https://flymet.meteopress.cz/cr/cudf13.png', [[48, 11.65], [51.65, 19.35]], {opacity: .5});
 		updateFlymet();
 		store.on('timestamp', updateFlymet);

@@ -1,6 +1,6 @@
 {
     "name": "windy-plugin-flymet",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "Windy plugin for Flymet.",
     "main": "dist/plugin.js",
     "scripts": {
