@@ -8,7 +8,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-flymet",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "author": "Jakub Vrana",
   "repository": {
     "type": "git",
