@@ -50,8 +50,8 @@ function updateFlymet() {
 		flymet.setUrl('https://flymet.meteopress.cz/cr/' + flymetType + hour + '.png').addTo(map);
 	} else if (isSameDay(timestamp, addDay(now))) { // Tomorrow.
 		flymet.setUrl('https://flymet.meteopress.cz/cr' + (hour ? 'dl/' + flymetType + hour : '/' + flymetType + '24') + '.png').addTo(map);
-	} else if (isSameDay(timestamp, addDay(now)) && hour == 0) { // Day after tomorrow.
-		flymet.setUrl('https://flymet.meteopress.cz/crdl/' + flymetType + '24.png').addTo(map);
+	} else if (isSameDay(timestamp, addDay(now)) && hour < 20) { // Day after tomorrow.
+		flymet.setUrl('https://flymet.meteopress.cz/crdl' + (hour ? '1/' + flymetType + hour : '/' + flymetType + '24') + '.png').addTo(map);
 	} else {
 		flymet.remove();
 	}

@@ -8,7 +8,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-flymet",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "author": "Jakub Vrana",
   "repository": {
     "type": "git",
@@ -68,8 +68,8 @@ function () {
       flymet.setUrl('https://flymet.meteopress.cz/cr/' + flymetType + hour + '.png').addTo(map);
     } else if (isSameDay(timestamp, addDay(now))) {
       flymet.setUrl('https://flymet.meteopress.cz/cr' + (hour ? 'dl/' + flymetType + hour : '/' + flymetType + '24') + '.png').addTo(map);
-    } else if (isSameDay(timestamp, addDay(now)) && hour == 0) {
-      flymet.setUrl('https://flymet.meteopress.cz/crdl/' + flymetType + '24.png').addTo(map);
+    } else if (isSameDay(timestamp, addDay(now)) && hour < 20) {
+      flymet.setUrl('https://flymet.meteopress.cz/crdl' + (hour ? '1/' + flymetType + hour : '/' + flymetType + '24') + '.png').addTo(map);
     } else {
       flymet.remove();
     }
