@@ -8,7 +8,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-flymet",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Jakub Vrana",
   "repository": {
     "type": "git",
@@ -32,7 +32,8 @@ function () {
 
   var store = W.require('store');
 
-  var map = W.require('map');
+  var _W$require = W.require('map'),
+      map = _W$require.map;
 
   var flymet;
   var flymetType = 'cudf';
