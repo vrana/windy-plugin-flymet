@@ -8,7 +8,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-flymet",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "author": "Jakub Vrana",
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@ function () {
       map = _W$require.map;
 
   var flymet;
+  var flymetSk;
   var flymetType = 'cudf';
 
   document.getElementById('close-mobile-plugin').onclick = function () {
@@ -53,6 +54,9 @@ function () {
       flymet = L.imageOverlay('https://flymet.meteopress.cz/cr/cudf13.png', [[48, 11.65], [51.65, 19.35]], {
         opacity: .5
       });
+      flymetSk = L.imageOverlay('https://flymet.meteopress.cz/sk/cudf13.png', [[47.1, 16.5], [50.145, 22.9]], {
+        opacity: .5
+      });
       updateFlymet();
       store.on('timestamp', updateFlymet);
     }
@@ -62,17 +66,39 @@ function () {
     var timestamp = new Date(store.get('timestamp'));
     var now = new Date();
     var hour = timestamp.getUTCHours();
+    var url = '';
+    var urlSk = '';
 
-    if (!flymetType) {
-      flymet.remove();
-    } else if (isSameDay(timestamp, now) && hour > 0) {
-      flymet.setUrl('https://flymet.meteopress.cz/cr/' + flymetType + hour + '.png').addTo(map);
-    } else if (isSameDay(timestamp, addDay(now))) {
-      flymet.setUrl('https://flymet.meteopress.cz/cr' + (hour ? 'dl/' + flymetType + hour : '/' + flymetType + '24') + '.png').addTo(map);
-    } else if (isSameDay(timestamp, addDay(now)) && hour < 20) {
-      flymet.setUrl('https://flymet.meteopress.cz/crdl' + (hour ? '1/' + flymetType + hour : '/' + flymetType + '24') + '.png').addTo(map);
+    if (flymetType) {
+      var flymetTypeSk = flymetType.replace(/^cury/, 'ecury');
+
+      if (isSameDay(timestamp, now) && hour > 0) {
+        url = 'https://flymet.meteopress.cz/cr/' + flymetType + hour + '.png';
+
+        if (flymetTypeSk != 'cuvr' && flymetTypeSk != 'drtr') {
+          urlSk = 'https://flymet.meteopress.cz/sk/' + flymetTypeSk + hour + '.png';
+        }
+      } else if (isSameDay(timestamp, addDay(now))) {
+        url = 'https://flymet.meteopress.cz/cr' + (hour ? 'dl/' + flymetType + hour : '/' + flymetType + '24') + '.png';
+
+        if (flymetTypeSk != flymetType) {
+          urlSk = 'https://flymet.meteopress.cz/sk' + (hour ? 'dl/' + flymetTypeSk + hour : '/' + flymetTypeSk + '24') + '.png';
+        }
+      } else if (isSameDay(timestamp, addDay(now)) && hour < 20) {
+        url = 'https://flymet.meteopress.cz/crdl' + (hour ? '1/' + flymetType + hour : '/' + flymetType + '24') + '.png';
+      }
+    }
+
+    if (url) {
+      flymet.setUrl(urlSk ? 'https://pg.vrana.cz/flymet/cz.php?url=' + url : url).addTo(map);
     } else {
       flymet.remove();
+    }
+
+    if (urlSk) {
+      flymetSk.setUrl('https://pg.vrana.cz/flymet/sk.php?url=' + urlSk).addTo(map);
+    } else {
+      flymetSk.remove();
     }
   }
 
