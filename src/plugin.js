@@ -1,3 +1,4 @@
+import broadcast from '@windy/broadcast';
 import {map} from '@windy/map';
 import store from '@windy/store';
 import rootScope from '@windy/rootScope';
@@ -57,16 +58,13 @@ function updateFlymet() {
 }
 
 export const onmount = (document) => {
-	// TODO: 'this' is not available.
-	document.querySelector('#close-mobile-plugin').onclick = () => this.close();
-
 	Array.from(document.querySelectorAll('[data-flymet]')).forEach((el) => el.onclick = (event) => {
 		document.querySelector('[data-flymet="' + flymetType + '"]').style.fontWeight = 'normal';
 		event.target.style.fontWeight = 'bold';
 		flymetType = event.target.dataset['flymet'];
 		updateFlymet();
 		if (rootScope.isMobile) {
-			this.close();
+			broadcast.fire('rqstClose', 'windy-plugin-flymet');
 		}
 	});
 
