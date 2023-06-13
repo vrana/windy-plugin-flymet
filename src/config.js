@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     // Display name of your plugin, as it will appear in the menu
     displayName: 'Flymet',
 
