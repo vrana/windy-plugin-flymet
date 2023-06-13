@@ -9,8 +9,6 @@ let flymetSk;
 /** @type {string} */
 let flymetType = 'cudf';
 
-document.getElementById('close-mobile-plugin').onclick = () => this.close();
-
 export const onopen = () => {
 	if (!flymet) {
 		const openInApp = document.getElementById('open-in-app');
@@ -58,18 +56,23 @@ function updateFlymet() {
 	}
 }
 
-Array.from(document.querySelectorAll('[data-flymet]')).forEach((el) => el.onclick = (event) => {
-	document.querySelector('[data-flymet="' + flymetType + '"]').style.fontWeight = 'normal';
-	event.target.style.fontWeight = 'bold';
-	flymetType = event.target.dataset['flymet'];
-	updateFlymet();
-	if (rootScope.isMobile) {
-		this.close();
-	}
-});
+export const onmount = (document) => {
+	// TODO: 'this' is not available.
+	document.querySelector('#close-mobile-plugin').onclick = () => this.close();
 
-document.querySelector('#flymet-opacity').oninput = function(e) {
-	flymet.setOpacity(e.target.value / 100);
+	Array.from(document.querySelectorAll('[data-flymet]')).forEach((el) => el.onclick = (event) => {
+		document.querySelector('[data-flymet="' + flymetType + '"]').style.fontWeight = 'normal';
+		event.target.style.fontWeight = 'bold';
+		flymetType = event.target.dataset['flymet'];
+		updateFlymet();
+		if (rootScope.isMobile) {
+			this.close();
+		}
+	});
+
+	document.querySelector('#flymet-opacity').oninput = function(e) {
+		flymet.setOpacity(e.target.value / 100);
+	};
 };
 
 /** Adds one day to date.
