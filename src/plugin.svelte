@@ -1,7 +1,20 @@
+<ul style="padding-left: 20px;">
+<li><a data-flymet="">Flymet: nic</a></li>
+<li><a data-flymet="cudf" style="font-weight: bold;">Deficit konvektivní teploty</a> <a href="https://flymet.meteopress.cz/manual.php#popis21" target="_blank"><sup>?</sup></a></li>
+<li><a data-flymet="cukh">Kupovitá oblačnost</a> <a href="https://flymet.meteopress.cz/manual.php#popis22" target="_blank"><sup>?</sup></a></li>
+<li><a data-flymet="cuvr">Rychlost stoupání</a> <a href="https://flymet.meteopress.cz/manual.php#popis2" target="_blank"><sup>?</sup></a></li>
+<li><a data-flymet="curya">Stoupání 1000 m</a> <a href="https://flymet.meteopress.cz/manual.php#popis27" target="_blank"><sup>?</sup></a></li>
+<li><a data-flymet="curyb">Stoupání 1500 m</a> <a href="https://flymet.meteopress.cz/manual.php#popis27" target="_blank"><sup>?</sup></a></li>
+<li><a data-flymet="drtr">Druh termiky</a></li>
+</ul>
+<p>Neprůhlednost: <input id="flymet-opacity" type="range" min="0" max="100" value="50" style="vertical-align: text-bottom;"></p>
+<p>Zdroj dat: <a href="https://flymet.meteopress.cz/cr/" target="_blank">Flymet</a></p>
+<script>
 import broadcast from '@windy/broadcast';
 import {map} from '@windy/map';
 import store from '@windy/store';
 import rootScope from '@windy/rootScope';
+import {onMount, onDestroy} from 'svelte';
 
 /** @type {L.ImageOverlay} */
 let flymet;
@@ -57,7 +70,7 @@ function updateFlymet() {
 	}
 }
 
-export const onmount = (document) => {
+onMount(() => {
 	Array.from(document.querySelectorAll('[data-flymet]')).forEach((el) => el.onclick = (event) => {
 		document.querySelector('[data-flymet="' + flymetType + '"]').style.fontWeight = 'normal';
 		event.target.style.fontWeight = 'bold';
@@ -71,7 +84,12 @@ export const onmount = (document) => {
 	document.querySelector('#flymet-opacity').oninput = function(e) {
 		flymet.setOpacity(e.target.value / 100);
 	};
-};
+});
+
+onDestroy(() => {
+	flymetType = '';
+	updateFlymet();
+});
 
 /** Adds one day to date.
  * @param {Date} date
@@ -90,3 +108,4 @@ function addDay(date) {
 function isSameDay(a, b) {
 	return a.getDate() == b.getDate();
 }
+</script>

@@ -1,0 +1,13 @@
+{
+  "name": "windy-plugin-flymet",
+  "version": "2.0.0",
+  "icon": "🪂",
+  "title": "Flymet  ",
+  "description": "Windy plugin for Flymet.",
+  "author": "Jakub Vrána",
+  "desktopUI": "embedded",
+  "mobileUI": "small",
+  "routerPath": "/flymet",
+  "built": 1715158526664,
+  "builtReadable": "2024-05-08T08:55:26.664Z"
+}
