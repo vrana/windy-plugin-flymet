@@ -8,8 +8,8 @@ const __pluginConfig =  {
   "desktopUI": "embedded",
   "mobileUI": "small",
   "routerPath": "/flymet",
-  "built": 1715158526605,
-  "builtReadable": "2024-05-08T08:55:26.605Z"
+  "built": 1715158635566,
+  "builtReadable": "2024-05-08T08:57:15.566Z"
 };
 
 // transformCode: import broadcast from '@windy/broadcast';
@@ -702,6 +702,7 @@ function instance($$self, $$props, $$invalidate) {
 
 		document.querySelector('#flymet-opacity').oninput = function (e) {
 			flymet.setOpacity(e.target.value / 100);
+			flymetSk.setOpacity(e.target.value / 100);
 		};
 	});
 

@@ -83,6 +83,7 @@ onMount(() => {
 
 	document.querySelector('#flymet-opacity').oninput = function(e) {
 		flymet.setOpacity(e.target.value / 100);
+		flymetSk.setOpacity(e.target.value / 100);
 	};
 });
 
